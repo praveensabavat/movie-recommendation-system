@@ -41,6 +41,11 @@ margin-top:30px;
 .card{
 margin:15px;
 width:200px;
+transition: transform 0.3s;
+}
+
+.card:hover{
+transform: scale(1.1);
 }
 
 .card img{
@@ -111,13 +116,13 @@ list.appendChild(item)
 
 <img src="{{movie.poster}}">
 
-<h3>
-<a href="{{ url_for('movie_page', title=movie.title) }}">
-{{movie.title}}
-</a>
-</h3>
+<h3>{{movie.title}}</h3>
 
 <p class="rating">⭐ {{movie.rating}}</p>
+
+<a href="/movie/{{movie.title}}">
+<button>▶ Watch Trailer</button>
+</a>
 
 </div>
 
