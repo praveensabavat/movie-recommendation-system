@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
-<title>AI Movie Recommendation</title>
+<title>Netflix Movie Recommender</title>
 
 <style>
 
 body{
-background:#0b0b0b;
-font-family:Arial;
+background:#141414;
 color:white;
+font-family:Arial;
 text-align:center;
 }
 
@@ -18,17 +19,15 @@ color:red;
 }
 
 input{
-width:350px;
-padding:12px;
-font-size:16px;
+padding:10px;
+width:300px;
 }
 
 button{
+padding:10px;
 background:red;
 color:white;
-padding:12px 25px;
 border:none;
-font-size:16px;
 cursor:pointer;
 }
 
@@ -36,75 +35,95 @@ cursor:pointer;
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:40px;
-margin-top:40px;
+margin-top:30px;
 }
 
-.movie-card{
-text-align:center;
-}
-
-.movie-card img{
+.card{
+margin:15px;
 width:200px;
-border-radius:6px;
 }
 
-.trailer-btn{
-margin-top:10px;
-background:red;
-padding:8px 15px;
-border:none;
+.card img{
+width:100%;
+border-radius:10px;
+}
+
+.card a{
 color:white;
-cursor:pointer;
+text-decoration:none;
+}
+
+.card a:hover{
+color:red;
+}
+
+.rating{
+color:gold;
 }
 
 </style>
+
+<script>
+
+async function suggest(){
+
+let q=document.getElementById("movie").value
+
+let res=await fetch("/suggest?q="+q)
+
+let data=await res.json()
+
+let list=document.getElementById("suggestions")
+
+list.innerHTML=""
+
+data.forEach(m=>{
+let item=document.createElement("option")
+item.value=m
+list.appendChild(item)
+})
+
+}
+
+</script>
 
 </head>
 
 <body>
 
-<h1>AI MOVIES</h1>
-
-<h2>Movie Recommendation System</h2>
+<h1>NETFLIX MOVIE RECOMMENDER</h1>
 
 <form method="POST">
 
-<input type="text" name="movie" placeholder="Enter movie name" required>
+<input list="suggestions" id="movie" name="movie" onkeyup="suggest()" placeholder="Search movie">
 
-<br><br>
+<datalist id="suggestions"></datalist>
 
 <button type="submit">Recommend</button>
 
 </form>
 
-{% if recommended %}
-
-<h2 style="margin-top:40px;">Recommended Movies</h2>
-
 <div class="movies">
 
 {% for movie in recommended %}
 
-<div class="movie-card">
+<div class="card">
 
-<img src="{{ movie['poster'] }}">
+<img src="{{movie.poster}}">
 
-<h3>{{ movie['title'] }}</h3>
-
-<a href="{{ movie['trailer'] }}" target="_blank">
-
-<button class="trailer-btn">Trailer</button>
-
+<h3>
+<a href="{{ url_for('movie_page', title=movie.title) }}">
+{{movie.title}}
 </a>
+</h3>
+
+<p class="rating">⭐ {{movie.rating}}</p>
 
 </div>
 
 {% endfor %}
 
 </div>
-
-{% endif %}
 
 </body>
 

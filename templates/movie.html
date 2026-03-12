@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>{{movie.title}} Trailer</title>
+
+<style>
+
+body{
+background:#141414;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+h1{
+color:red;
+}
+
+iframe{
+margin-top:30px;
+border-radius:10px;
+}
+
+a{
+color:white;
+text-decoration:none;
+font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>{{movie.title}}</h1>
+
+{% if trailer %}
+
+<iframe width="700" height="400"
+src="{{ trailer }}"
+frameborder="0"
+allowfullscreen>
+</iframe>
+
+{% else %}
+
+<p>Trailer not available</p>
+
+{% endif %}
+
+<br><br>
+
+<a href="/">⬅ Back</a>
+
+</body>
+
+</html>
